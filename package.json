@@ -1,0 +1,19 @@
+{
+  "name": "blocipedia",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "export NODE_ENV=test && jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anung-Un-Rama/blocipedia-node.git"
+  },
+  "author": "Jared Smith",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Anung-Un-Rama/blocipedia-node/issues"
+  },
+  "homepage": "https://github.com/Anung-Un-Rama/blocipedia-node#readme"
+}
