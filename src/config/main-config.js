@@ -6,7 +6,7 @@ const session = require("express-session");
 const expressValidator = require("express-validator");
 const flash = require("express-flash");
 //const passportConfig = require("./passport-config");
-const logger = require("morgan");
+// const logger = require("morgan");
 
 
 module.exports = {
@@ -28,6 +28,6 @@ module.exports = {
       res.locals.notice = req.flash("notice");
       next();
     });
-    app.use(logger("dev"));
+    // app.use(logger("dev"));
   }
 };
