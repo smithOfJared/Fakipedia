@@ -11,6 +11,11 @@ module.exports = (sequelize, DataTypes) => {
     password: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    role: {
+      type: DataTypes.STRING,
+      defaultValue: 0,
+      allowNull: false
     }
   }, {});
   User.associate = function(models) {
@@ -19,5 +24,16 @@ module.exports = (sequelize, DataTypes) => {
       as: "wiki"
     });
   };
+
+  // other role associations to go here
+
+  User.prototype.isAdmin = function() {
+    return this.role === 1;
+  };
+
+  User.prototype.isPremium = function() {
+    return this.role === 2;
+  };
+
   return User;
 };
