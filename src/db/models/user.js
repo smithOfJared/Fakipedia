@@ -28,12 +28,12 @@ module.exports = (sequelize, DataTypes) => {
   // other role associations to go here
 
   User.prototype.isAdmin = function() {
-    return this.role === 1;
+    return this.role === User.roles.admin;
   };
 
   User.prototype.isPremium = function() {
-    return this.role === 2;
+    return this.role === User.roles.premium;
   };
-
+  User.roles = {standard: 0, admin: 1, premium: 2};
   return User;
 };

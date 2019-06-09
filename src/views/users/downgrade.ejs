@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../static/partials/head.ejs %>
+  </head>
+  <body>
+
+    <% include ../static/partials/navbar.ejs %>
+
+    <main class="container">
+      <h1>Cancel Premium</h1>
+      <p>
+        By canceling your premium account you will no longer be able to create private wikis.
+      </p>
+      <form action="/users/<%= currentUser.id %>/processDowngrade" method="POST">
+            <button class="btn btn-danger">Downgrade</button>
+      </form>
+    </main>
+
+    <% include ../static/partials/baseScripts.ejs %>
+
+  </body>
+</html>

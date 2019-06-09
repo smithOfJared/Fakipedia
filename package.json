@@ -19,7 +19,7 @@
   "homepage": "https://github.com/Anung-Un-Rama/blocipedia-node#readme",
   "devDependencies": {
     "faker": "^4.1.0",
-    "jasmine": "^3.0.0",
+    "jasmine": "^3.4.0",
     "request": "^2.83.0"
   },
   "dependencies": {
@@ -39,6 +39,8 @@
     "pg": "^7.4.1",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.32.6",
-    "sequelize-cli": "^5.4.0"
+    "sequelize-cli": "^5.4.0",
+    "stripe": "^7.1.0",
+    "update": "^0.7.4"
   }
 }
