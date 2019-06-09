@@ -2,6 +2,7 @@
 const userQueries = require("../db/queries.users.js");
 const passport = require("passport");
 const sgMail = require("../sgMail/sgMail.js");
+const stripe = require("stripe")("sk_test_eXa4jSxpTm89Pw4EjQ4Jc4dT003p0bGWYr");
 
 module.exports = {
   create(req, res, next){
@@ -30,8 +31,8 @@ module.exports = {
   signUp(req, res, next){
     res.render("users/sign_up");
   },
-   signInForm(req, res, next){
-     res.render("users/sign_in");
+  signInForm(req, res, next){
+    res.render("users/sign_in");
   },
   signIn(req, res, next){
     passport.authenticate("local")(req, res, function () {
@@ -50,12 +51,50 @@ module.exports = {
     res.redirect("/");
   },
   show(req, res, next){
-    userQueries.getUser(req.params.id, (err, result) => {
-      if(err || result.user === undefined){
+    userQueries.getUser(req.params.id, (err, user) => {
+      if(err){
         req.flash("notice", "No user found with that ID.");
         res.redirect("/");
       } else {
-        res.render("users/show", {...result});
+        res.render("users/show", {user});
+      }
+    });
+  },
+  upgrade(req, res, next){
+    res.render("users/upgrade");
+  },
+  processUpgrade(req, res, next) {
+    stripe.charges.create({
+      amount: 500,
+      currency: "usd",
+      description: "premium membership purchase",
+      source: req.body.stripeToken
+      }, (err, charge) => {
+        if(err) {
+          res.redirect("/wikis/index")
+        } else {
+          userQueries.upgradeUser(req.params.id, (err, user) => {
+            if(err) {
+              console.log(err);
+              req.flash("notice", "Unable to upgrade user.");
+              res.render("users/upgrade");
+            } else {
+              res.redirect(`/users/${req.params.id}`);
+            }
+          });
+        }
+    });
+  },
+  downgrade(req, res, next){
+    res.render("users/downgrade");
+  },
+  processDowngrade(req, res, next) {
+    userQueries.downgradeUser(req.params.id, (err, user) => {
+      if(err) {
+        req.flash("notice", "Unable to downgrade user.");
+        res.redirect("user/show");
+      } else {
+        res.redirect(`/users/${req.params.id}`)
       }
     });
   }
