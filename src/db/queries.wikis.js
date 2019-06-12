@@ -1,10 +1,15 @@
 const Wiki = require("./models").Wiki;
 const User = require("./models").User;
+const Authorizer = require("../policies/wiki");
 
 
 module.exports = {
-  getAllWikis(callback){
-    return Wiki.findAll()
+  getAllWikis(authorized, callback){
+    let options = {};
+    if(!authorized) {
+      options = {where: {private: false}}
+    }
+    return Wiki.findAll(options)
     .then((wikis) => {
       callback(null, wikis);
     })
@@ -39,8 +44,8 @@ module.exports = {
     })
   },
 
-  updateWiki(req, updatedWiki, callback){
-    return Wiki.findById(req.params.id)
+  updateWiki(id, updatedWiki, callback){
+    return Wiki.findById(id)
     .then((wiki) => {
       if(!wiki){
         return callback("Wiki not found, sorry.");
@@ -58,8 +63,8 @@ module.exports = {
     })
   },
 
-  deleteWiki(req, callback){
-    return Wiki.findById(req.params.id)
+  deleteWiki(id, callback){
+    return Wiki.findById(id)
     .then((wiki) => {
       wiki.destroy()
       .then((res) => {

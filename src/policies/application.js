@@ -1,5 +1,5 @@
 module.exports = class AppPolicy {
-  constructor(User, record) {
+  constructor(user, record) {
     this.user = user;
     this.record = record;
   }
