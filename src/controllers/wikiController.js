@@ -1,6 +1,7 @@
 const wikiQueries = require("../db/queries.wikis.js");
 const Wiki = require("../db/models").Wiki;
 const Authorizer = require("../policies/wiki");
+const markdown = require( "markdown" ).markdown;
 
 module.exports = {
   index(req, res, next){
@@ -53,6 +54,7 @@ module.exports = {
       } else {
         const authorized = new Authorizer(req.user, wiki).show();
         if(authorized) {
+          wiki.body = markdown.toHTML(wiki.body);
           res.render("wikis/show", {wiki});
         }
       }
