@@ -2,12 +2,14 @@ const User = require("./models").User;
 const bcrypt = require("bcryptjs");
 const key = require("../config/stripe-key");
 const stripe = require("stripe");
+const CollaboratedWikis = require("./models").WikiCollaborator;
+const Wiki = require("./models").Wiki;
 
 module.exports = {
   createUser(newUser, callback){
     const salt = bcrypt.genSaltSync();
     const hashedPassword = bcrypt.hashSync(newUser.password, salt);
-console.log('$$$$$$$: userQueries ' + newUser);
+    console.log('$$$$$$$: userQueries ' + newUser);
     return User.create({
       email: newUser.email,
       password: hashedPassword
@@ -20,8 +22,16 @@ console.log('$$$$$$$: userQueries ' + newUser);
     })
   },
   getUser(id, callback){
-    let result = {};
-    User.findById(id)
+    return User.findById(id, {
+      include: [{
+        model: Wiki,
+        as: "CollaboratedWikis"
+      },
+      {
+        model: Wiki,
+        as: "wikis"
+      }]
+    })
     .then((user) => {
       callback(null, user);
     })
@@ -29,6 +39,7 @@ console.log('$$$$$$$: userQueries ' + newUser);
       callback(err);
     })
   },
+
   upgradeUser(userId, callback){
     User.findById(userId)
     .then((user) => {
@@ -52,7 +63,5 @@ console.log('$$$$$$$: userQueries ' + newUser);
     .catch((err) => {
       callback(err);
     });
-  }
-
-  //fit all functions inside this bracket
+  },
 }

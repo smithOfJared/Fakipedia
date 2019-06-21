@@ -21,7 +21,18 @@
         </div>
 
         <% if(currentUser.role != 0) { %>
-            <input type="checkbox" name="private" <% if(wiki.private){ %>checked<% } %>/>
+          <label ="private-checkbox">Private</label>
+            <input type="checkbox" name="private" <% if(wiki.private){ %>checked<% } %> />
+
+          <ul>
+            <h3>Collaborators</h3>
+            <% users.forEach((user) => { %>
+              <li>
+                <label for="collaborator-names"><%= user.email %></label>
+                <input type="checkbox" name="collaborators[]" value="<%= user.id %>" <% if(collaborators.includes(user.id)){ %>checked<% } %> />
+              </li>
+            <% }) %>
+          </ul>
         <% } %>
 
         <button type="submit" class="btn btn-primary">Update</button>

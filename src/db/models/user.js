@@ -23,9 +23,12 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "userId",
       as: "wiki"
     });
+    User.belongsToMany(models.Wiki, {
+      as: 'CollaboratedWikis',
+      through: 'WikiCollaborator',
+      foreignKey: 'userId'
+    });
   };
-
-  // other role associations to go here
 
   User.prototype.isAdmin = function() {
     return this.role === User.roles.admin;
