@@ -51,6 +51,7 @@ module.exports = {
     res.redirect("/");
   },
   show(req, res, next){
+    //show the collaborative wikis
     userQueries.getUser(req.params.id, (err, user) => {
       if(err){
         req.flash("notice", "No user found with that ID.");
